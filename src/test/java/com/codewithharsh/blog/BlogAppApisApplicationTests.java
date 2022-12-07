@@ -19,6 +19,7 @@ class BlogAppApisApplicationTests {
 	@Test
 	public void repoTest()
 	{
+		System.out.println("This is after the changes");s
         String className =	this.userRepo.getClass().getName();
         String pacKName = this.userRepo.getClass().getPackageName(); 
         System.out.println(className+" "+pacKName);
