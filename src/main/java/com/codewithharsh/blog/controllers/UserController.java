@@ -19,6 +19,8 @@ import com.codewithharsh.blog.payloads.ApiResponse;
 import com.codewithharsh.blog.payloads.UserDto;
 import com.codewithharsh.blog.services.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -29,7 +31,7 @@ public class UserController {
 	
 	// POST-CREATE USER
 	@PostMapping("/")
-	public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto)
+	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto)
 	{
 		 UserDto createUserDto  = this.userService.createUser(userDto);
 		 return new ResponseEntity<>(createUserDto,HttpStatus.CREATED);
@@ -39,19 +41,40 @@ public class UserController {
 
 	// PUT-UPDATE USER
 	@PutMapping("/{userId}")
-	public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto,@PathVariable ("userId") Integer uid) 
+	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto,@PathVariable ("userId") Integer uid) 
 	{
 		UserDto updatedUser = this.userService.updateUser(userDto, uid);
 		return ResponseEntity.ok(updatedUser);
 	}
 	
 	// DELETE-DELETE USER
+//	@DeleteMapping("/{userId}")
+//	public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Integer uid)
+////	{
+////		this.deleteUser(uid);
+////		return new ResponseEntity (new ApiResponse("user deleted successfully",true), HttpStatus.OK);
+//////	}
+	
 	@DeleteMapping("/{userId}")
-	public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Integer uid)
+	public ResponseEntity<ApiResponse>  deleteUser(@PathVariable("userId") Integer uid)
 	{
-		this.deleteUser(uid);
-		return new ResponseEntity (new ApiResponse("user deleted successfully",true), HttpStatus.OK);
+		ApiResponse response = new ApiResponse();
+		try {
+			userService.deleteUser(uid);
+		}catch(Exception e) {
+			response.setResponse("reason : ");
+			response.setVal(false);
+			//return false;
+			return new ResponseEntity<ApiResponse> (response, HttpStatus.OK);
+		}
+		response.setResponse("success : ");
+		response.setVal(true);
+	//	return response;
+		//response.("user deleted successfully",true)
+		return new ResponseEntity<ApiResponse> (response, HttpStatus.OK);
+		//return true;
 	}
+	
 	
 	// GET- ALL USER GET
 	@GetMapping("/")
