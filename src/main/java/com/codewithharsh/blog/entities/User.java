@@ -29,6 +29,6 @@ public class User {
 	private String password;
 	private String about;
 	
-	
+	// adding new comment for checking the git status
 	
 }
