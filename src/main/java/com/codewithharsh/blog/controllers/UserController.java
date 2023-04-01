@@ -83,14 +83,11 @@ public class UserController {
 		return ResponseEntity.ok(this.userService.getAllUsers());
 	}
 
-	// GET- Single
-	// User GET
+
 	@GetMapping("/{userId}")
 	public ResponseEntity<UserDto> getAllUsers(@PathVariable Integer userId)
 	{
 		return ResponseEntity.ok(this.userService.getUserById(userId));
 	}
-	
 
-	
 }

@@ -1,15 +1,13 @@
 package com.codewithharsh.blog.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name ="categories" )
@@ -18,7 +16,9 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Cateogory {
-	
+
+	// comments
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer categoryId;
@@ -28,6 +28,9 @@ public class Cateogory {
 	
 	@Column(name = "description")
 	private String categoryDescription;
-	
+
+	@OneToMany(mappedBy = "category",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Post> posts  = new ArrayList<>();
+
    
 }
